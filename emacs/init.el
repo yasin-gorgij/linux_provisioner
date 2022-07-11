@@ -401,7 +401,8 @@
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
   :config
-  (lsp-enable-which-key-integration t))
+  (lsp-enable-which-key-integration t)
+  (add-to-list 'exec-path "~/dev/elixir-ls-1.13"))
 
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
@@ -431,12 +432,35 @@
     :keymaps 'lsp-mode-map
     :prefix lsp-keymap-prefix
     "d" '(dap-hydra t :wk "debugger")))
+    
+(use-package yasnippet
+  :ensure t
+  :hook ((prog-mode . yas-minor-mode)
+	 (conf-mode . yas-minor-mode)
+	 (text-mode . yas-minor-mode)
+	 (snippet-mode . yas-minor-mode)))
 
-(use-package typescript-mode
-  :mode "\\.ts\\'"
-  :hook (typescript-mode . lsp-deferred)
-  :config
-  (setq typescript-indent-level 2))
+(use-package yasnippet-snippets
+  :ensure t
+  :after (yasnippet))
+
+(use-package elixir-mode
+  :ensure t
+  :hook ((elixir-mode . lsp-deferred)
+         (elixir-mode . prettify-symbols-mode)
+         (elixir-mode .
+            (lambda ()
+              (push '(">=" . ?\u2265) prettify-symbols-alist)
+              (push '("<=" . ?\u2264) prettify-symbols-alist)
+              (push '("!=" . ?\u2260) prettify-symbols-alist)
+              (push '("==" . ?\u2A75) prettify-symbols-alist)
+              (push '("=~" . ?\u2245) prettify-symbols-alist)
+              (push '("<-" . ?\u2190) prettify-symbols-alist)
+              (push '("->" . ?\u2192) prettify-symbols-alist)
+              (push '("<-" . ?\u2190) prettify-symbols-alist)
+              (push '("|>" . ?\u25B7) prettify-symbols-alist))))
+  :bind (:map elixir-mode-map
+	      ("C-c C-f" . elixir-format)))
 
 (use-package python-mode
   :ensure t
