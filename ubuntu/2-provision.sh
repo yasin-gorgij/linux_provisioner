@@ -24,6 +24,11 @@ asdf plugin-add elixir https://github.com/asdf-vm/asdf-elixir.git
 asdf install elixir 1.13.4
 asdf global elixir 1.13.4
 
+# Download Elixir LS for GNU Emacs #
+cd ~/dev
+wget -c https://github.com/elixir-lsp/elixir-ls/releases/download/v0.10.0/elixir-ls-1.13.zip
+unzip -d elixir-ls-1.13 elixir-ls-1.13.zip
+
 # Install Sublime Text #
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
