@@ -444,10 +444,44 @@
   :ensure t
   :after (yasnippet))
 
+(use-package flycheck-credo)
+
+(eval-after-load 'flycheck
+  '(flycheck-credo-setup))
+
+(use-package dumb-jump
+  :ensure t
+  :init
+  (setq dumb-jump-selector 'ivy))
+
+(defun my/mix-run-test (&optional at-point)
+  "If AT-POINT is true it will pass the line number to mix test."
+  (interactive)
+  (let* ((current-file (buffer-file-name))
+	 (current-line (line-number-at-pos))
+	 (mix-file (concat (projectile-project-root) "mix.exs"))
+	 (default-directory (file-name-directory mix-file))
+	 (mix-env (concat "MIX_ENV=test ")))
+
+    (if at-point
+	(compile (format "%s mix test %s:%s" mix-env current-file current-line))
+      (compile (format "%s mix test %s" mix-env current-file)))))
+
+(defun my/mix-run-test-file ()
+  "Run mix test over the current file."
+  (interactive)
+  (my/mix-run-test nil))
+
+(defun my/mix-run-test-at-point ()
+  "Run mix test at point."
+  (interactive)
+  (my/mix-run-test t))
+  
 (use-package elixir-mode
   :ensure t
   :hook ((elixir-mode . lsp-deferred)
          (elixir-mode . prettify-symbols-mode)
+         (elixir-mode . flycheck-mode)
          (elixir-mode .
             (lambda ()
               (push '(">=" . ?\u2265) prettify-symbols-alist)
@@ -460,7 +494,8 @@
               (push '("<-" . ?\u2190) prettify-symbols-alist)
               (push '("|>" . ?\u25B7) prettify-symbols-alist))))
   :bind (:map elixir-mode-map
-	      ("C-c C-f" . elixir-format)))
+	      ("C-c C-f" . elixir-format)
+	      ("C-c C-t" . my/mix-run-test-at-point)))
 
 (use-package python-mode
   :ensure t
@@ -500,8 +535,7 @@
   ("C-c p" . projectile-command-map)
   :init
   ;; NOTE: Set this to the folder where you keep your Git repos!
-  (when (file-directory-p "~/Projects/Code")
-    (setq projectile-project-search-path '("~/Projects/Code")))
+  (setq projectile-project-search-path '("~/dev/elixir/house_inventory"))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile

@@ -15,11 +15,14 @@ echo 'fpath=(${ASDF_DIR}/completions $fpath)' >> $HOME/.zshrc
 echo 'autoload -Uz compinit && compinit' >> $HOME/.zshrc
 source $HOME/.asdf/asdf.sh
 
-# Install Erlang #
-sudo apt-get install -y autoconf build-essential fop libgl1-mesa-dev libglu1-mesa-dev libncurses5-dev libncurses-dev libpng-dev libssh-dev libwxgtk3.0-gtk3-dev libwxgtk-webview3.0-gtk3-dev libxml2-utils m4 openjdk-11-jdk unixodbc-dev xsltproc
+# Install Erlang and Elixir #
+sudo apt-get install -y autoconf build-essential fop libgl1-mesa-dev libglu1-mesa-dev libncurses5-dev libncurses-dev libpng-dev libssh-dev libwxgtk3.0-gtk3-dev libwxgtk-webview3.0-gtk3-dev libxml2-utils m4 openjdk-11-jdk unixodbc-dev unzip xsltproc
 asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
 asdf install erlang 25.0
 asdf global erlang 25.0
+asdf plugin-add elixir https://github.com/asdf-vm/asdf-elixir.git
+asdf install elixir 1.13.4
+asdf global elixir 1.13.4
 
 # Install Sublime Text #
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg
@@ -38,11 +41,6 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 sudo usermod -aG docker $USER
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-
-# Add Elixir compiled source to PATH #
-echo '' >> $HOME/.zshrc
-echo '# Elixir #' >> $HOME/.zshrc
-echo 'export PATH="$HOME/dev/elixir-ecosystem/elixir/bin:$PATH' >> $HOME/.zshrc
 
 # Install TFTPD #
 sudo apt-get install -y tftpd-hpa
