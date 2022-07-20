@@ -11,8 +11,6 @@ git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.10.0
 echo '' >> $HOME/.zshrc
 echo '# ASDF #' >> $HOME/.zshrc
 echo '. $HOME/.asdf/asdf.sh' >> $HOME/.zshrc
-echo 'fpath=(${ASDF_DIR}/completions $fpath)' >> $HOME/.zshrc
-echo 'autoload -Uz compinit && compinit' >> $HOME/.zshrc
 source $HOME/.asdf/asdf.sh
 
 # Install Erlang and Elixir #

@@ -11,7 +11,10 @@ sed -i 's/plugins=(/plugins=(zsh-autocomplete docker /g' ~/.zshrc
 mkdir ~/dev
 cd ~/dev
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
-source ~/dev/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+echo '' > ~/.zshenv
+echo '# ZSH Autocomplete #' >> ~/.zshenv
+echo 'source ~/dev/zsh-autocomplete/zsh-autocomplete.plugin.zsh' > ~/.zshenv
+echo '' > ~/.zshenv
 echo 'skip_global_compinit=1' > ~/.zshenv
 wget https://raw.githubusercontent.com/zakaziko99/agnosterzak-ohmyzsh-theme/master/agnosterzak.zsh-theme -o ~/.oh-my-zsh/themes/agnosterzak.zsh-theme
 chsh -s $(which zsh)
