@@ -436,10 +436,12 @@
     :keymaps 'lsp-mode-map
     :prefix lsp-keymap-prefix
     "d" '(dap-hydra t :wk "debugger")))
-    
+(use-package highlight-symbol
+  :ensure t)    
 (use-package yasnippet
   :ensure t
   :hook ((prog-mode . yas-minor-mode)
+	 (prog-mode . highlight-symbol-mode)
 	 (conf-mode . yas-minor-mode)
 	 (text-mode . yas-minor-mode)
 	 (snippet-mode . yas-minor-mode)))
